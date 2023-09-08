@@ -31,6 +31,10 @@ pytest = "^7.4.2"
 pytest-mock = "^3.11.1"
 respx = "^0.20.2"
 
+
+[tool.poetry.group.dev.dependencies]
+nuitka = "^1.8"
+
 [tool.black]
 preview = true
 line-length = 88
