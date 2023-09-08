@@ -10,9 +10,13 @@ repository = "https://github.com/Enraged-Dun-Cookie-Development-Team/Avatar-Embe
 documentation = "https://github.com/Enraged-Dun-Cookie-Development-Team/Avatar-Embed/README.md"
 keywords = []
 classifiers = []
+packages = [{include = "avatar_embed"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pillow = "^10.0.0"
+httpx = "^0.24.1"
+click = "^8.1.7"
 
 [tool.poetry.group.lint.dependencies]
 ruff = "^0.0.275"
@@ -20,6 +24,12 @@ isort = "^5.10.1"
 black = "^23.1.0"
 nonemoji = "^0.1.2"
 pre-commit = "^3.1.0"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.2"
+pytest-mock = "^3.11.1"
+respx = "^0.20.2"
 
 [tool.black]
 preview = true
