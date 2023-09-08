@@ -1,20 +1,20 @@
 [tool.poetry]
-name = "Project Name"
+name = "Avatar-Embed"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "为头像嵌入图标的小工具"
+authors = ["AzideCupric <rukuy@qq.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = ""
-repository = ""
-documentation = ""
+homepage = "https://github.com/Enraged-Dun-Cookie-Development-Team/Avatar-Embed"
+repository = "https://github.com/Enraged-Dun-Cookie-Development-Team/Avatar-Embed"
+documentation = "https://github.com/Enraged-Dun-Cookie-Development-Team/Avatar-Embed/README.md"
 keywords = []
 classifiers = []
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.10"
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.group.lint.dependencies]
 ruff = "^0.0.275"
 isort = "^5.10.1"
 black = "^23.1.0"
@@ -22,8 +22,9 @@ nonemoji = "^0.1.2"
 pre-commit = "^3.1.0"
 
 [tool.black]
+preview = true
 line-length = 88
-target-version = ["py38", "py39", "py310", "py311"]
+target-version = ["py310", "py311"]
 include = '\.pyi?$'
 extend-exclude = '''
 '''
@@ -41,7 +42,7 @@ select = ["E", "W", "F", "UP", "C", "T", "PYI", "PT", "Q"]
 ignore = ["C901"]
 
 line-length = 88
-target-version = "py38"
+target-version = "py310"
 
 [tool.ruff.flake8-pytest-style]
 fixture-parentheses = false
