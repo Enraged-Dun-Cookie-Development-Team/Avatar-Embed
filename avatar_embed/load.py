@@ -1,5 +1,6 @@
 from pathlib import Path
 from httpx import Client
+from io import BytesIO
 from PIL import Image
 
 def load_pic_file(path: Path | str) -> Image.Image:
@@ -24,4 +25,4 @@ def load_pic_url(url: str) -> Image.Image:
     """
     with Client() as client:
         resp = client.get(url)
-        return Image.open(resp.content).convert("RGBA")
+        return Image.open(BytesIO(resp.content)).convert("RGBA")

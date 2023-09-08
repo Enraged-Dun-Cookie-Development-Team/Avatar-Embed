@@ -3,6 +3,10 @@ from pathlib import Path
 import re
 import click
 
+from avatar_embed.load import load_pic_file, load_pic_url
+from avatar_embed.save import save_file
+from avatar_embed.embed import embed as _embed
+
 PosType = Literal["top-left", "top-right", "bottom-left", "bottom-right"]
 
 pos_map: dict[str, PosType] = {
@@ -13,12 +17,13 @@ pos_map: dict[str, PosType] = {
 }
 
 SIZE_PATTERN = re.compile(r"(\d+)x(\d+)")
+URL_PATTERN = re.compile(r"https?://")
 
 # avaemb <avatar_path> --embed <label_path> --pos <label_pos> --size <label_size> --output <output_size> --save <save_path> # noqa: E501
 @click.command("avaemb")
-@click.argument("avatar_path", type=click.Path(exists=True))
+@click.argument("avatar_path", type=str)
 @click.option(
-    "--embed", "-e", type=click.Path(exists=True), required=True, help="角标文件"
+    "--embed", "-e", type=click.Path(exists=True), required=True, help="角标文件/URL"
 )
 @click.option(
     "--pos",
@@ -45,19 +50,33 @@ SIZE_PATTERN = re.compile(r"(\d+)x(\d+)")
     help="保存图片的路径, 默认为当前目录的同名.embed.png",
 )
 def avaemb(
-    avatar_path: Path,
-    embed: Path,
+    avatar_path: str,
+    embed: str,
     pos: str,
     size: float,
     output: str,
     save: Path,
 ):
-    from avatar_embed.load import load_pic_file
-    from avatar_embed.save import save_file
-    from avatar_embed.embed import embed as _embed
+    is_url_avatar = False
 
-    avatar = load_pic_file(avatar_path)
-    label = load_pic_file(embed)
+    if URL_PATTERN.match(avatar_path):
+        is_url_avatar = True
+        avatar = load_pic_url(avatar_path)
+    else:
+        if (ap := Path(avatar_path)).exists():
+            avatar = load_pic_file(ap)
+        else:
+            click.Abort(f"头像文件不存在: {avatar_path}")
+            return
+
+    if URL_PATTERN.match(embed):
+        label = load_pic_file(embed)
+    else:
+        if (ep := Path(embed)).exists():
+            label = load_pic_file(ep)
+        else:
+            click.Abort(f"角标文件不存在: {embed}")
+            return
 
     size_tuple = SIZE_PATTERN.match(output)
     if not size_tuple:
@@ -69,4 +88,9 @@ def avaemb(
     if save:
         save_file(avatar, save)
     else:
-        save_file(avatar, Path.cwd() / Path(avatar_path).with_suffix(".embed.png").name)
+        if is_url_avatar:
+            save_file(avatar, Path.cwd() / f"{id(avatar_path)}.embed.png")
+        else:
+            save_file(
+                avatar, Path.cwd() / Path(avatar_path).with_suffix(".embed.png").name
+            )
