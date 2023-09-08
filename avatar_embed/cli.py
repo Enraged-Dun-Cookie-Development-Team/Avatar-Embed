@@ -18,7 +18,7 @@ SIZE_PATTERN = re.compile(r"(\d+)x(\d+)")
 @click.command("avaemb")
 @click.argument("avatar_path", type=click.Path(exists=True))
 @click.option(
-    "--embed", "-e", type=click.Path(exists=True), required=True, help="头像文件"
+    "--embed", "-e", type=click.Path(exists=True), required=True, help="角标文件"
 )
 @click.option(
     "--pos",
