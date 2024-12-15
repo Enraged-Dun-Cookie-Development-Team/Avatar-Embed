@@ -8,8 +8,8 @@ def embed(
     pos: Literal[
         "top-left", "top-right","bottom-left", "bottom-right"
     ] = "bottom-right",
-    label_size: float = 0.25,
-    output_size: tuple[int, int] = (128, 128),
+    label_size: float = 0.3,
+    output_size: tuple[int, int] = (65, 65),
 ) -> Image:
     """将角标嵌入头像中的某个角落
 
